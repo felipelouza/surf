@@ -129,6 +129,8 @@ class df_sada{
             size_t h_idx = 0, dup_idx = 0;
             size_t last_io_id = 0;
             uint64_t max_depth = 0;
+//FELIPE
+            uint64_t max_node_depth = 0;
 
             using node_type = typename cst_type::node_type;
             using n_type = std::tuple<node_type, bool>;
@@ -152,6 +154,10 @@ class df_sada{
                     std::get<1>(node) = false;
                     uint64_t depth = cst.depth(v);
                     max_depth = std::max(depth, max_depth);
+//FELIPE
+                    uint64_t node_depth = cst.node_depth(v);
+                    max_node_depth = std::max(node_depth, max_node_depth);
+
                     s.push(node);
                     s_push(cst.select_child(v, 1));
                 } else {  // second half
@@ -192,6 +198,12 @@ class df_sada{
             }
             std::cerr<<"max_depth="<<max_depth<<std::endl;
             store_to_cache(max_depth, surf::KEY_MAXCSTDEPTH, cc);
+
+//FELIPE
+            std::cerr<<"***max_node_depth="<<max_node_depth<<std::endl;
+            store_to_cache(max_node_depth, surf::KEY_MAXCSTNODEDEPTH, cc);
+
+
             std::cerr<<"h_idx="<<h_idx<<std::endl;
             std::cerr<<"dup_idx="<<dup_idx<<std::endl;
             h.resize(h_idx);

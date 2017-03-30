@@ -49,6 +49,8 @@ const std::string KEY_CSA = "csa";
 const std::string KEY_MAXTF = "maxtf";
 const std::string KEY_MAXDOCLEN = "maxdoclen";
 const std::string KEY_MAXCSTDEPTH = "maxcstdepth";
+//FELIPE
+const std::string KEY_MAXCSTNODEDEPTH = "maxcstnodedepth";
 const std::string KEY_WEIGHTS = "weights";
 const std::string KEY_W_AND_P = "W_and_P";
 

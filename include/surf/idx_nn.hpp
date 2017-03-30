@@ -343,7 +343,9 @@ void construct(idx_nn<t_csa,t_k2treap,t_rmq,t_border,t_border_rank,t_border_sele
     if (!cache_file_exists(surf::KEY_P, cc))
     {
         uint64_t max_depth = 0;
-        load_from_cache(max_depth, surf::KEY_MAXCSTDEPTH, cc);
+//FELIPE: do we have to change max_depth??
+        //load_from_cache(max_depth, surf::KEY_MAXCSTDEPTH, cc);
+        load_from_cache(max_depth, surf::KEY_MAXCSTNODEDEPTH, cc);
 
         int_vector<> dup;
         load_from_cache(dup, surf::KEY_DUP, cc);
@@ -379,7 +381,9 @@ void construct(idx_nn<t_csa,t_k2treap,t_rmq,t_border,t_border_rank,t_border_sele
             auto v = *it; // get the node by dereferencing the iterator
             if ( !cst.is_leaf(v) ) {
                 if (it.visit() == 1) {  // node visited the first time
-                    depth = cst.depth(v);
+//FELIPE
+//                  depth = cst.depth(v);
+		    depth = cst.node_depth(v);
                     range_type r = map_node_to_dup(v);
                     if ( !empty(r) ){
                         for(size_t i=r.first; i<=r.second; ++i){
@@ -398,6 +402,8 @@ void construct(idx_nn<t_csa,t_k2treap,t_rmq,t_border,t_border_rank,t_border_sele
             }
         }
         P_buf.close();
+/**/
+
     }
     cout<<"...RMQ_C"<<endl;
     if (!cache_file_exists<t_rmq>(surf::KEY_RMQC,cc))
@@ -408,6 +414,8 @@ void construct(idx_nn<t_csa,t_k2treap,t_rmq,t_border,t_border_rank,t_border_sele
         store_to_cache(rmq_c, surf::KEY_RMQC, cc, true); 
     }
     cout<<"...W_AND_P"<<endl;
+
+cout<<"*****************"<<endl;
     if (!cache_file_exists<t_k2treap>(surf::KEY_W_AND_P, cc))
     {
         int_vector_buffer<> P_buf(cache_file_name(surf::KEY_P, cc));
@@ -429,6 +437,7 @@ void construct(idx_nn<t_csa,t_k2treap,t_rmq,t_border,t_border_rank,t_border_sele
             store_to_file(W, W_and_P_file+".w");
         }
         cout<<"build k2treap"<<endl;
+
         t_k2treap k2treap;
         construct(k2treap, cache_file_name(surf::KEY_W_AND_P,cc));
         store_to_cache(k2treap, surf::KEY_W_AND_P, cc, true);
