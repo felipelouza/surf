@@ -305,7 +305,7 @@ void construct(idx_nn<t_csa,t_k2treap,t_rmq,t_border,t_border_rank,t_border_sele
 
         //reverse the text
         int_vector<8> rev_text;//for integer you have to change
-        load_from_cache(rev_text, conf::KEY_TEXT, cc);
+        load_from_cache(rev_text, conf::KEY_TEXT_INT, cc);
 
 cout<<"text = ";
 for(int i=0; i<10; i++) cout<<rev_text[i]<<" "; cout<<endl;
