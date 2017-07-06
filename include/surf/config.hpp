@@ -9,6 +9,10 @@ namespace surf{
 
 const std::string TEXT_FILENAME = "text_int_SURF.sdsl";
 const std::string TEXT_FILENAME_BYTE = "text_SURF.sdsl";
+//FELIPE
+const std::string TEXT_R_FILENAME = "text_r_int_SURF.sdsl";
+const std::string TEXT_R_FILENAME_BYTE = "text_r_SURF.sdsl";
+
 const std::string DICT_FILENAME = "dict.txt";
 const std::string URL2ID_FILENAME = "url2id.txt";
 const std::string DOCNAMES_FILENAME = "doc_names.txt";
@@ -26,6 +30,8 @@ const std::string KEY_RMQC = "RMQC";
 const std::string KEY_RMQW = "RMQW";
 const std::string KEY_WTC = "wtc";
 const std::string KEY_TMPCST = "tempcst";
+//FELIPE
+const std::string KEY_REVTMPCST = "revtempcst";
 const std::string KEY_TMPDUP = "tmpdup";
 const std::string KEY_WTDUP  = "wtdup";
 const std::string KEY_WTDP  = "wtdp";
@@ -46,6 +52,8 @@ const std::string KEY_F_T = "Ft";
 const std::string KEY_H = "H";
 const std::string KEY_H_SELECT  = "H_select";              
 const std::string KEY_CSA = "csa";
+//FELIPE
+const std::string KEY_CSA_R = "csa_r";
 const std::string KEY_MAXTF = "maxtf";
 const std::string KEY_MAXDOCLEN = "maxdoclen";
 const std::string KEY_MAXCSTDEPTH = "maxcstdepth";
@@ -62,6 +70,8 @@ std::vector<std::string> storage_keys = {KEY_DOCCNT,
 										 KEY_C,
 										 KEY_WTC,
 										 KEY_TMPCST,
+//FELIPE
+										 KEY_REVTMPCST,
 										 KEY_TMPDUP,
 										 KEY_DUP,
 										 KEY_WTDUP,
@@ -75,6 +85,8 @@ std::vector<std::string> storage_keys = {KEY_DOCCNT,
                                          KEY_U,
                                          KEY_WTU,
                                          KEY_CSA,
+//FELIPE
+                                         KEY_CSA_R,
                                          sdsl::conf::KEY_TEXT,
                                          sdsl::conf::KEY_TEXT_INT,
                                          sdsl::conf::KEY_SA,

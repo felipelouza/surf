@@ -111,7 +111,11 @@ public:
             template<typename t_pat_iter>
             top_k_iterator(const idx_nn* idx, t_pat_iter begin, t_pat_iter end, bool multi_occ, bool only_match) : 
                 m_idx(idx), m_multi_occ(multi_occ) {
+
                 m_valid = backward_search(m_idx->m_csa, 0, m_idx->m_csa.size()-1, begin, end, m_sp, m_ep) > 0;
+//FELIPE
+
+
                 m_valid &= !only_match;
                 if ( m_valid ){
                     auto h_range = m_idx->m_map_to_h(m_sp, m_ep);
@@ -293,6 +297,41 @@ void construct(idx_nn<t_csa,t_k2treap,t_rmq,t_border,t_border_rank,t_border_sele
         construct(csa, "", cc, 0);
         store_to_cache(csa, surf::KEY_CSA, cc, true);
     }
+
+//FELIPE
+    cout<<"...CSA_R"<<endl; // CSA of reversed text to get node depths
+    if ( !cache_file_exists<t_csa>(surf::KEY_CSA_R, cc) )
+    {
+
+        //reverse the text
+        int_vector<8> rev_text;//for integer you have to change
+        load_from_cache(rev_text, conf::KEY_TEXT, cc);
+
+cout<<"text = ";
+for(int i=0; i<10; i++) cout<<rev_text[i]<<" "; cout<<endl;
+
+        std::reverse(rev_text.begin(), rev_text.end());
+
+cout<<"rev = ";
+for(int i=0; i<10; i++) cout<<rev_text[i]<<" "; cout<<endl;
+
+        store_to_cache(rev_text, conf::KEY_TEXT_INT, cc);
+
+        t_csa csa_r;
+        construct(csa_r, "", cc, 0);
+//      construct_im(csa_r, rev_text, 1);
+        store_to_cache(csa_r, surf::KEY_CSA_R, cc, true);
+
+        //re-reverse
+        //load_from_cache(rev_text, conf::KEY_TEXT, cc);
+        std::reverse(rev_text.begin(), rev_text.end());
+
+cout<<"text = ";
+for(int i=0; i<10; i++) cout<<rev_text[i]<<" "; cout<<endl;
+
+        store_to_cache(rev_text, conf::KEY_TEXT_INT, cc);
+    }
+
     cout<<"...WTD"<<endl; // Document array and wavelet tree of it
     if (!cache_file_exists<t_wtd>(surf::KEY_WTD, cc) ){
         construct_darray<t_csa::alphabet_type::int_width>(cc, false);
@@ -303,6 +342,7 @@ void construct(idx_nn<t_csa,t_k2treap,t_rmq,t_border,t_border_rank,t_border_sele
         store_to_cache(wtd, surf::KEY_WTD, cc, true);
     }
     cout<<"...DF"<<endl; // 
+    cout<<"===="<<endl; // 
     if (!cache_file_exists<t_df>(surf::KEY_SADADF, cc))
     {
         t_df df;
@@ -315,6 +355,7 @@ void construct(idx_nn<t_csa,t_k2treap,t_rmq,t_border,t_border_rank,t_border_sele
         t_h_select h_select(&hrrr);
         store_to_cache(h_select, surf::KEY_H_SELECT, cc, true);
     }
+    cout<<"===="<<endl; // 
     cout<<"...DOC_BORDER"<<endl;
     if ( !cache_file_exists<t_border>(surf::KEY_DOCBORDER,cc) or
          !cache_file_exists<t_border_rank>(surf::KEY_DOCBORDER_RANK,cc) or
