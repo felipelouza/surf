@@ -303,35 +303,27 @@ void construct(idx_nn<t_csa,t_k2treap,t_rmq,t_border,t_border_rank,t_border_sele
     if ( !cache_file_exists<t_csa>(surf::KEY_CSA_R, cc) )
     {
 
+        int_vector<8> text;//for integer you have to change
+        load_from_cache(text, conf::KEY_TEXT, cc);
+
+/*
+        std::reverse(text.begin(), text.end()-1);
+*/
         //reverse the text
-        int_vector<8> rev_text;//for integer you have to change
-        load_from_cache(rev_text, conf::KEY_TEXT_INT, cc);
+	string rev_text;
+	size_t n = text.size();
 
-cout<<"text = ";
-for(int i=0; i<10; i++) cout<<rev_text[i]<<" "; cout<<endl;
-
-        std::reverse(rev_text.begin(), rev_text.end());
-
-cout<<"rev = ";
-for(int i=0; i<10; i++) cout<<rev_text[i]<<" "; cout<<endl;
-
-        store_to_cache(rev_text, conf::KEY_TEXT_INT, cc);
+	for(size_t i=0; i<=n; i++)
+		if(text[n-i]!=0) rev_text.push_back(text[n-i]);
+	rev_text.push_back('\0');
 
         t_csa csa_r;
-        construct(csa_r, "", cc, 0);
-//      construct_im(csa_r, rev_text, 1);
+        construct_im(csa_r, rev_text.c_str(), 1);
         store_to_cache(csa_r, surf::KEY_CSA_R, cc, true);
 
-        //re-reverse
-        //load_from_cache(rev_text, conf::KEY_TEXT, cc);
-        std::reverse(rev_text.begin(), rev_text.end());
-
-cout<<"text = ";
-for(int i=0; i<10; i++) cout<<rev_text[i]<<" "; cout<<endl;
-
-        store_to_cache(rev_text, conf::KEY_TEXT_INT, cc);
+//      store_to_cache(rev_text, conf::KEY_TEXT_INT, cc);
+//      construct(csa_r, "", cc, 0);
     }
-
     cout<<"...WTD"<<endl; // Document array and wavelet tree of it
     if (!cache_file_exists<t_wtd>(surf::KEY_WTD, cc) ){
         construct_darray<t_csa::alphabet_type::int_width>(cc, false);
